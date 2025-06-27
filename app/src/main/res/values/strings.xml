@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Roston Time</string>
+    <string name="accessibility_service_description">يسمح لـ Roston Time بكتابة الوقت والجمل المخصصة في التطبيقات الأخرى</string>
+</resources>

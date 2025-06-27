@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.RostonTime" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">#6750A4</item>
+    </style>
+
+    <style name="Theme.RostonTime" parent="Base.Theme.RostonTime" />
+</resources>

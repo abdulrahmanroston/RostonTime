@@ -1,0 +1,76 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+      
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+      
+    - name: Build APK
+      run: ./gradlew assembleRelease
+      
+    - name: Sign APK
+      uses: r0adkll/sign-android-release@v1
+      with:
+        releaseDirectory: app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+        
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: roston-time-apk
+        path: app/build/outputs/apk/release/*.apk
+        
+    - name: Create Release
+      if: github.ref == 'refs/heads/main'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v1.0.${{ github.run_number }}
+        release_name: Roston Time v1.0.${{ github.run_number }}
+        body: |
+          🕐 تطبيق Roston Time - إصدار جديد
+          
+          المميزات:
+          - أيقونة عائمة لكتابة الوقت الحالي
+          - إعدادات متقدمة للجمل المخصصة
+          - دعم الضغط المطول
+          
+          📱 متطلبات التشغيل: Android 7.0+
+          📦 حجم الملف: ~8 MB
+        draft: false
+        prerelease: false
+        
+    - name: Upload Release Asset
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: app/build/outputs/apk/release/app-release.apk
+        asset_name: roston-time-v1.0.${{ github.run_number }}.apk
+        asset_content_type: application/vnd.android.package-archive

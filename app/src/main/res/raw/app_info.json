@@ -1,0 +1,19 @@
+{
+  "app_name": "Roston Time",
+  "version": "1.0.0",
+  "description": "تطبيق ذكي لكتابة الوقت الحالي والجمل المخصصة",
+  "features": [
+    "أيقونة عائمة جميلة",
+    "كتابة الوقت بصيغة 12 ساعة",
+    "جمل مخصصة قابلة للتخصيص",
+    "ضغط مطول للخيارات",
+    "تصميم عربي أنيق"
+  ],
+  "permissions": ["SYSTEM_ALERT_WINDOW", "BIND_ACCESSIBILITY_SERVICE", "FOREGROUND_SERVICE"],
+  "min_android_version": "7.0",
+  "target_android_version": "14.0",
+  "size_mb": 8,
+  "developer": "Roston Time Team",
+  "support_email": "support@rostontime.com",
+  "github_repo": "https://github.com/roston-time/android-app"
+}
